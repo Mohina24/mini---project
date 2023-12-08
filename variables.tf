@@ -1,22 +1,14 @@
-variable "ami" {
-  type = map(any)
-  default = {
-    us-east-1 = "ami-0230bd60aa48260c6"
-    us-west-1 = "ami-06e4ca05d431835e9"
-    us-west-2 = "ami-093467ec28ae4fe03"
-  }
+ variable "subnet" {
+  type = map(object({
+    cidr_block        = string
+    availability_zone = string
+  }))
 }
-
-variable "instance_types" {
-  type    = list(string)
-  default = ["t2.micro", "t2.small", "t2.medium"]
-}
-
-variable "key_name" {
+variable "prefix" {
   type    = string
-  default = "cloud2024"
-
+  default = "mini_project"
 }
+ 
 variable "security_groups" {
   description = "A map of security groups with their rules"
   type = map(object({
@@ -39,5 +31,22 @@ variable "security_groups" {
     }))
   }))
 }
-
  
+variable "ec2" {
+  type = map(object({
+    subnet_name = string,
+    # cidr_block = string
+    # availability_zone = string
+  }))
+  default = {
+    app = {
+      subnet_name = "pub_subnet1"
+    }
+    dev = {
+      subnet_name = "pub_subnet2"
+    }
+    web = {
+      subnet_name = "pub_subnet3"
+    }
+  }
+}
